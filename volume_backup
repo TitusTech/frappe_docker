@@ -1,0 +1,18 @@
+#!/bin/bash
+
+case $# in
+1) ;;
+*) echo
+   echo "Usage: `basename $0` VOLUME"
+   echo
+   echo "Saves volume contents as VOLUME.tgz in the local directory"
+   echo
+   exit 1;;
+esac
+
+VOLUME=$1
+
+echo -n "Backing up ${VOLUME}.tgz ..."
+docker run --rm -v ${VOLUME}:/src_${VOLUME} -v $(pwd):/backup ubuntu tar czf /backup/${VOLUME}.tgz src_${VOLUME}/
+echo " DONE"
+
