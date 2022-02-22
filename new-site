@@ -8,7 +8,7 @@ echo
 read -p 'ERPNext version (e.g. v13.21.0): ' ERPNEXT_VERSION
 echo 
 
-docker run \
+docker run -rm \
     -e "SITE_NAME=${SITE}.titusgt.com" \
     -e "DB_ROOT_USER=root" \
     -e "MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}" \
