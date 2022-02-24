@@ -1,0 +1,21 @@
+#!/bin/bash
+
+read -p 'SITE subdomain (i.e. SITE.titusgt.com): ' SITE
+read -p 'ERPNext version (e.g. v13.21.0): ' ERPNEXT_VERSION
+echo
+
+mkdir -p backup
+
+echo "Backing up ${SITE} ..."
+echo
+
+docker run --rm \
+    -e "MAINTENANCE_MODE=1" \
+    -v erpm_sites-vol:/home/frappe/frappe-bench/sites \
+    -v $(pwd)/backup:/backup \
+    --network erpm_default \
+    frappe/erpnext-worker:${ERPNEXT_VERSION} bench --site ${SITE}.titusgt.com   backup --with-files --ignore-backup-conf --verbose --compress --backup-path /backup
+
+echo
+echo "${SITE} backup DONE"
+
